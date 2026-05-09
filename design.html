@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Tugas Felisha</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&family=Quicksand:wght@300;400;600&display=swap"
+    rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .video-background {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -100;
+    }
+
+    .section1 {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section2 {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background:hsl(161, 66%, 66%);
+      position: relative;
+      z-index: 1;
+    }
+
+    .section2 .wave {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #4973ff;
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+      transition: 0.5s;
+    }
+
+    .section2 .wave span {
+      content: "";
+      position: absolute;
+      width: 325vh;
+      height: 325vh;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -75%);
+      background: #000000;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      font-size: 4em;
+      letter-spacing: 2px;
+      color: #fff;
+    }
+
+    .section2 .wave span:nth-child(1) {
+      border-radius: 45%;
+      background: rgba(20, 20, 20, 1);
+      animation: animate 5s linear infinite;
+    }
+
+    .section2 .wave span:nth-child(2) {
+      border-radius: 40%;
+      background: rgba(20, 20, 20, 0.5);
+      animation: animate 10s linear infinite;
+    }
+
+    .section2 .wave span:nth-child(3) {
+      border-radius: 42.5%;
+      background: rgba(20, 20, 20, 0.5);
+      animation: animate 15s linear infinite;
+    }
+
+    @keyframes animate {
+      0% {
+        transform: translate(-50%, -75%) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(-50%, -75%) rotate(360deg);
+      }
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      backdrop-filter: blur(3px);
+      z-index: 2;
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3em;
+      margin-bottom: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    p {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.5em;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .tugas {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 50px;
+      border-radius: 15px;
+      text-align: center;
+      margin: 0 10%;
+      z-index: 2;
+      position: relative;
+    }
+
+    .tugas h2 {
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 20px;
+      font-size: 2.5em;
+      font-weight: 600;
+    }
+
+    .tugas ul {
+      list-style: none;
+    }
+
+    .tugas li {
+      margin: 10px 0;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      transition: background 0.3s;
+    }
+
+    .tugas li:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .scroll-down {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      border: 2px solid white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      transition: all 0.3s;
+      z-index: 3;
+    }
+
+    .scroll-down:hover {
+      background: white;
+      color: black;
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    .tugas-link {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.3em;
+      font-weight: 600;
+      color: hsl(0, 0%, 100%);
+      text-decoration: none;
+      transition: all 0.3s;
+      display: block;
+      padding: 10px;
+    }
+
+    .tugas-link:hover {
+      color: #ffeb3b;
+      text-decoration: none;
+      transform: scale(1.05);
+    }
+
+    .tugas li:not(:has(a)) {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.2em;
+      color: #ccc;
+      font-style: italic;
+    }
+
+    .overlay h1,
+    .overlay p {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .tugas h2 {
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- VIDEO BACKGROUND -->
+  <video class="video-background" autoplay loop muted playsinline>
+    <source src="videosunset.mp4" type="video/mp4">
+    Browser Anda tidak mendukung video HTML5.
+  </video>
+
+  <!-- SECTION 1 - WELCOME -->
+  <section class="section section1">
+    <div class="overlay">
+      <h1>Selamat Datang di Website Tugas Felisha</h1>
+      <p>Website ini berisi kumpulan tugas kuliah Soft Computing</p>
+    </div>
+    <a href="#section2" class="scroll-down">Scroll ↓</a>
+  </section>
+
+  <!-- SECTION 2 - TUGAS -->
+  <section id="section2" class="section section2">
+    <!-- PERBAIKAN: Menambahkan div wave yang hilang -->
+    <div class="wave">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    
+    <div class="tugas">
+      <h2>📚 Daftar Tugas Kuliah</h2>
+      <ul>
+        <li><a href="/menu1" class="tugas-link">Tugas 1 - Kelebihan dan Kekurangan Algoritma</a></li>
+        <li><a href="/menu2" class="tugas-link">Tugas 2 - Program Algoritma Genetika</a></li>
+        <li><a href="/menu3" class="tugas-link">Tugas 3 - Program dengan Tournamen Selection</a></li>
+        <li>Tugas 4 - Coming Soon</li>
+      </ul>
+    </div>
+  </section>
+</body>
+
+</html>

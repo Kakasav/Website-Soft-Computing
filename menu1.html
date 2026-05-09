@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 1 - Kelebihan dan Kekurangan</title>
+    <style>
+        body {
+            font-family: "Helvetica", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #6d93cc;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 25px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .back-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            text-align: center;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+            background: linear-gradient(135deg, #2980b9, #3498db);
+        }
+        
+        .back-button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.4);
+        }
+        
+        .algorithm-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin: 10px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .center {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tugas 1 - Kelebihan dan Kekurangan Algoritma</h1>
+        <p>Berikut kelebihan dan kekurangan pada 3 Algoritma:</p>
+        
+        <div class="algorithm-section">
+            <h2>1. Algoritma Fuzzy</h2>
+            <p>Pengertian: memproses ketidakpastian, meniru penalaran manusia yang fleksibel, 
+                dan memberikan nilai kebenaran yang berada di antara 0 (salah mutlak) dan 1 (benar mutlak).</p>
+            <p><strong>Kelebihan:</strong></p>
+            <ul>
+                <li>Konsep fuzzy logic sangat sederhana</li>
+                <li>Konsep penalaran fuzzy logic mudah dimengerti</li>
+                <li>Memiliki toleransi terhadap data-data yang tidak tepat</li>
+            </ul>
+            <p><strong>Kekurangan:</strong></p>
+            <ul>
+                <li>Sulit dalam menentukan fuzzy set membership function-nya</li>
+                <li>Susah untuk menentukan kemiringan pada fungsi tertentu dan menentukan aturan fuzzy</li>
+                <li>Belum banyak terdapat kursus/balai pendidikan dan buku-buku teks yang menjangkau setiap tingkat pendidikan</li>
+            </ul>
+        </div>
+
+        <div class="algorithm-section">
+            <h2>2. Algoritma Genetika</h2>
+            <p>Pengertian: teknik pencarian yang meniru proses evolusi seleksi alam untuk 
+                menemukan solusi optimal atau mendekati optimal untuk masalah optimasi.</p>
+            <p><strong>Kelebihan:</strong></p>
+            <ul>
+                <li>Dapat menyelesaikan masalah yang kompleks</li>
+                <li>Tidak memerlukan informasi turunan</li>
+                <li>Dapat bekerja dengan dataset yang besar</li>
+            </ul>
+            <p><strong>Kekurangan:</strong></p>
+            <ul>
+                <li>Komputasi yang intensif</li>
+                <li>Konvergensi tidak dijamin</li>
+                <li>Parameter tuning yang rumit</li>
+            </ul>
+        </div>
+
+        <div class="algorithm-section">
+            <h2>3. Algoritma Jaringan Syaraf Tiruan</h2>
+            <p>Pengertian: model komputasi yang terinspirasi dari cara kerja otak manusia, 
+                yang menggunakan struktur berlapis dari "neuron" buatan yang saling terhubung untuk memproses informasi.</p>
+            <p><strong>Kelebihan:</strong></p>
+            <ul>
+                <li>Dapat mempelajari pola yang kompleks</li>
+                <li>Toleran terhadap noise dalam data</li>
+                <li>Dapat menggeneralisasi dari contoh</li>
+            </ul>
+            <p><strong>Kekurangan:</strong></p>
+            <ul>
+                <li>Membutuhkan data training yang besar</li>
+                <li>Proses training memakan waktu lama</li>
+                <li>Black box - sulit diinterpretasi</li>
+            </ul>
+        </div>
+        
+        <div class="center">
+            <a href="/" class="back-button">⬅ Kembali ke Halaman Utama</a>
+        </div>
+    </div>
+</body>
+</html>

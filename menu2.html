@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu 2 - Knapsack Problem Solver</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url('/night.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+        }
+        h1 {
+            color: #5f3784;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+        
+        .back-home-btn {
+            background: linear-gradient(135deg, #5f3784, #8a4fc1);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(95, 55, 132, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-home-btn:hover {
+            background: linear-gradient(135deg, #8a4fc1, #5f3784);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(95, 55, 132, 0.4);
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+        }
+        
+        .section-title {
+            color: #5f3784;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 8px;
+        }
+        
+        .parameter-input {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .parameter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .parameter-group label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .parameter-group input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .parameter-group input:focus {
+            outline: none;
+            border-color: #5f3784;
+            box-shadow: 0 0 5px rgba(95, 55, 132, 0.3);
+        }
+        .run-btn {
+          cursor: pointer;
+          position: relative;
+          padding: 10px 24px;
+          font-size: 20px;
+          color:#e9ecef;
+          border: 2px solid #1d2556;
+          background-color: #8a4fc1;
+          font-weight: 600;
+          border-radius: 25px;
+          transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+          overflow: hidden;
+          z-index: 1;
+        }
+        .run-btn::before {
+           content: '';
+           position: absolute;
+           inset: 0;
+           margin: auto;
+           width: 120px;
+           height: 120px;
+           border-radius: 50%;
+           scale: 0;
+           z-index: -1;
+           background-color: #e9ecef;
+           transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+        }.run-btn:hover::before {
+            scale: 3;
+        }.run-btn:hover {
+            color: #1d2556;
+            scale: 1.1;
+            box-shadow: 0 0px 20px rgba(193, 163, 98, 0.4);
+        }.run-btn:active{
+            scale: 1;
+        }
+        
+        .output-container {
+            margin-top: 25px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .output-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .output-content {
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            background: #1d2556;
+            color: hsl(0, 0%, 100%);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #351c1c;
+            font-size: 14px;
+            line-height: 1.4;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        #loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #5f3784;
+            font-weight: bold;
+        }
+        
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #5f3784;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-home-btn" onclick="window.location.href='/'">
+            ← Back to Home
+        </button>
+        
+        <h1>Knapsack Problem Solver</h1>
+        <p class="description">Masukkan parameter algoritma genetika untuk menyelesaikan masalah Knapsack</p>
+        
+        <div class="note">
+            <strong>📝 Catatan:</strong> Data item sudah ditentukan dalam program. Hanya parameter algoritma yang perlu diinput.
+        </div>
+        
+        <!-- Form Input Parameters -->
+        <div class="form-section">
+            <div class="section-title">⚙️ Parameter Algoritma Genetika</div>
+            
+            <div class="parameter-input">
+                <div class="parameter-group">
+                    <label for="capacity">Kapasitas Knapsack (kg):</label>
+                    <input type="number" id="capacity" value="15" min="1" required>
+                </div>
+                
+                <div class="parameter-group">
+                    <label for="popSize">Ukuran Populasi:</label>
+                    <input type="number" id="popSize" value="20" min="5" max="100" required>
+                </div>
+                
+                <div class="parameter-group">
+                    <label for="generations">Jumlah Generasi:</label>
+                    <input type="number" id="generations" value="15" min="1" max="100" required>
+                </div>
+                
+                <div class="parameter-group">
+                    <label for="crossoverRate">Crossover Rate (0-1):</label>
+                    <input type="number" id="crossoverRate" value="0.8" min="0" max="1" step="0.1" required>
+                </div>
+                
+                <div class="parameter-group">
+                    <label for="mutationRate">Mutation Rate (0-1):</label>
+                    <input type="number" id="mutationRate" value="0.1" min="0" max="1" step="0.05" required>
+                </div>
+            </div>
+        </div>
+        
+        <button class="run-btn" id="runBtn" onclick="runProgram()">
+            🚀 Jalankan Algoritma Genetika
+        </button>
+        
+        <div id="loading">
+            <div class="loading-spinner"></div>
+            <p>Menjalankan program...</p>
+        </div>
+        
+        <div id="outputResult" class="output-container" style="display: none;">
+        </div>
+    </div>
+
+    <script>
+        function runProgram() {
+            const outputDiv = document.getElementById('outputResult');
+            const loadingDiv = document.getElementById('loading');
+            const runBtn = document.getElementById('runBtn');
+            
+            // Collect parameters
+            const params = {
+                capacity: parseInt(document.getElementById('capacity').value),
+                popSize: parseInt(document.getElementById('popSize').value),
+                generations: parseInt(document.getElementById('generations').value),
+                crossoverRate: parseFloat(document.getElementById('crossoverRate').value),
+                mutationRate: parseFloat(document.getElementById('mutationRate').value)
+            };
+            
+            // Validation
+            if (params.capacity <= 0 || params.popSize <= 0 || params.generations <= 0) {
+                alert('Kapasitas, ukuran populasi, dan generasi harus positif!');
+                return;
+            }
+            
+            if (params.crossoverRate < 0 || params.crossoverRate > 1 || 
+                params.mutationRate < 0 || params.mutationRate > 1) {
+                alert('Crossover rate dan mutation rate harus antara 0 dan 1!');
+                return;
+            }
+            
+            loadingDiv.style.display = 'block';
+            outputDiv.style.display = 'none';
+            runBtn.disabled = true;
+            
+            fetch('/run-program', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(params)
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingDiv.style.display = 'none';
+                outputDiv.style.display = 'block';
+                runBtn.disabled = false;
+                
+                if (data.success) {
+                    let outputHTML = `
+                        <div class="output-title success">✅ Program Berhasil Dijalankan!</div>
+                        <div class="output-title">📋 Output Program:</div>
+                        <div class="output-content">${data.output || 'Tidak ada output'}</div>
+                    `;
+                    
+                    if (data.error) {
+                        outputHTML += `
+                            <div class="output-title error">⚠️ Warning:</div>
+                            <div class="output-content">${data.error}</div>
+                        `;
+                    }
+                    
+                    outputDiv.innerHTML = outputHTML;
+                } else {
+                    outputDiv.innerHTML = `
+                        <div class="output-title error">❌ Gagal Menjalankan Program</div>
+                        <div class="output-content">${data.error}</div>
+                    `;
+                }
+            })
+            .catch(error => {
+                loadingDiv.style.display = 'none';
+                outputDiv.style.display = 'block';
+                runBtn.disabled = false;
+                outputDiv.innerHTML = `
+                    <div class="output-title error">🌐 Network Error</div>
+                    <div class="output-content">${error.toString()}</div>
+                `;
+            });
+        }
+        
+        // Enter key support untuk run program
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                runProgram();
+            }
+        });
+    </script>
+</body>
+</html>
