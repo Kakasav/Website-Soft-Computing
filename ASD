@@ -1,0 +1,74 @@
+from flask import Flask, render_template, send_from_directory, request, jsonify
+import subprocess
+import sys
+import os
+
+app = Flask(__name__)
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('.', filename)
+
+@app.route('/')
+def home():
+    return render_template('design.html')
+
+@app.route('/menu1')
+def menu1():
+    return render_template('menu1.html')
+
+@app.route('/menu2')
+def menu2():
+    return render_template('menu2.html')
+
+@app.route('/run-program', methods=['POST'])
+def run_program():
+    try:
+        data = request.json
+        capacity = data.get('capacity', 15)
+        pop_size = data.get('popSize', 20)
+        generations = data.get('generations', 15)
+        crossover_rate = data.get('crossoverRate', 0.8)
+        mutation_rate = data.get('mutationRate', 0.1)
+
+        python_file = 'SoftcompUtkTugas2.py'
+        if not os.path.exists(python_file):
+            return jsonify({
+                'success': False,
+                'error': f'File {python_file} tidak ditemukan'
+            })
+
+        result = subprocess.run(
+            [sys.executable, python_file, str(capacity), str(pop_size), str(generations), str(crossover_rate), str(mutation_rate)],
+            capture_output=True, 
+            text=True, 
+            timeout=30
+        )
+        
+        return jsonify({
+            'success': True,
+            'output': result.stdout,
+            'error': result.stderr
+        })
+        
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            'success': False,
+            'error': 'Program timeout setelah 30 detik'
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
+
+@app.route('/menu3')
+def menu3():
+    return render_template('menu3.html')
+
+
+
+if __name__ == '__main__':
+    print("Website Tugas Felisha")
+    print("Server running at: http://localhost:5000")
+    app.run(debug=True)
