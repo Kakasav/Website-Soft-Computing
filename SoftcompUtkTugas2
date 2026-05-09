@@ -1,0 +1,226 @@
+import random
+import sys
+
+# ---
+# 1. Data Masalah Knapsack (FIXED)
+# ---
+items = {
+    'A': {'weight': 7, 'value': 5},
+    'B': {'weight': 2, 'value': 4},
+    'C': {'weight': 1, 'value': 7},
+    'D': {'weight': 9, 'value': 2}
+}
+
+item_list = list(items.keys())
+n_items = len(item_list)
+
+# ---
+# 2. Fungsi untuk mendapatkan parameter
+# ---
+def get_parameters():
+    """Ambil parameter dari command line arguments"""
+    print("Command line args:", sys.argv)  # Debug
+    
+    if len(sys.argv) == 6:
+        # Jika ada command line arguments
+        try:
+            capacity = int(sys.argv[1])
+            pop_size = int(sys.argv[2])
+            generations = int(sys.argv[3])
+            crossover_rate = float(sys.argv[4])
+            mutation_rate = float(sys.argv[5])
+            
+            print(f"Parsed params: capacity={capacity}, pop_size={pop_size}, generations={generations}, crossover_rate={crossover_rate}, mutation_rate={mutation_rate}")
+            
+            if capacity <= 0 or pop_size <= 0 or generations <= 0:
+                raise ValueError("Nilai harus positif")
+                
+            if not (0 <= crossover_rate <= 1) or not (0 <= mutation_rate <= 1):
+                raise ValueError("Rate harus antara 0 dan 1")
+                
+            return capacity, pop_size, generations, crossover_rate, mutation_rate
+            
+        except ValueError as e:
+            print(f"Error dalam parameter: {e}")
+            print("Menggunakan nilai default...")
+    
+    # Fallback ke nilai default
+    print("Menggunakan nilai default")
+    return 15, 8, 8, 0.8, 0.1
+
+# ---
+# 3. Fungsi bantu
+# ---
+def decode(chromosome):
+    total_weight = 0
+    total_value = 0
+    chosen_items = []
+    
+    for gene, name in zip(chromosome, item_list):
+        if gene == 1:
+            total_weight += items[name]['weight']
+            total_value += items[name]['value']
+            chosen_items.append(name)
+    
+    return chosen_items, total_weight, total_value
+
+def fitness(chromosome, capacity):
+    _, total_weight, total_value = decode(chromosome)
+    
+    if total_weight <= capacity:
+        return total_value
+    else:
+        return 0
+
+def roulette_selection(population, fitnesses):
+    total_fit = sum(fitnesses)
+    
+    if total_fit == 0:
+        return random.choice(population)
+    
+    pick = random.uniform(0, total_fit)
+    current = 0
+    
+    for chrom, fit in zip(population, fitnesses):
+        current += fit
+        if current >= pick:
+            return chrom
+    
+    return population[-1]
+
+def crossover(p1, p2):
+    point = random.randint(1, len(p1) - 1)
+    child1 = p1[:point] + p2[point:]
+    child2 = p2[:point] + p1[point:]
+    return child1, child2
+
+def mutate(chromosome, mutation_rate=0.1):
+    return [1 - g if random.random() < mutation_rate else g for g in chromosome]
+
+def initialize_population(pop_size):
+    population = []
+    for _ in range(pop_size):
+        chromosome = [random.randint(0, 1) for _ in range(n_items)]
+        population.append(chromosome)
+    return population
+
+# ---
+# 4. Algoritma Genetika Utama
+# ---
+def genetic_algorithm(capacity, pop_size=10, generations=10, crossover_rate=0.8, mutation_rate=0.1):
+    population = initialize_population(pop_size)
+    best_overall_chrom = None
+    best_overall_fit = -1
+    
+    for gen in range(generations):
+        fitnesses = [fitness(ch, capacity) for ch in population]
+        best_index = fitnesses.index(max(fitnesses))
+        best_chrom = population[best_index]
+        best_fit = fitnesses[best_index]
+        
+        if best_fit > best_overall_fit:
+            best_overall_fit = best_fit
+            best_overall_chrom = best_chrom.copy()
+        
+        best_items, w, v = decode(best_chrom)
+        print(f"Generasi {gen+1}:")
+        print(f"  Terbaik: {best_chrom} | Item: {best_items} | Berat: {w} | Nilai: {v} | Fitness: {best_fit}")
+        print(f"  Fitness rata-rata: {sum(fitnesses)/len(fitnesses):.2f}")
+        print("-" * 65)
+        
+        new_population = []
+        new_population.append(best_chrom)  # Elitism
+        
+        while len(new_population) < pop_size:
+            parent1 = roulette_selection(population, fitnesses)
+            parent2 = roulette_selection(population, fitnesses)
+            
+            if random.random() < crossover_rate:
+                child1, child2 = crossover(parent1, parent2)
+            else:
+                child1, child2 = parent1[:], parent2[:]
+            
+            child1 = mutate(child1, mutation_rate)
+            child2 = mutate(child2, mutation_rate)
+            new_population.extend([child1, child2])
+        
+        population = new_population[:pop_size]
+    
+    best_items, w, v = decode(best_overall_chrom)
+    final_fitness = fitness(best_overall_chrom, capacity)
+    
+    print("\n" + "=" * 50)
+    print("== HASIL AKHIR ==")
+    print("=" * 50)
+    print(f"Kromosom terbaik: {best_overall_chrom}")
+    print(f"Item terpilih: {best_items}")
+    print(f"Total berat: {w} kg")
+    print(f"Total nilai: ${v}")
+    print(f"Fitness akhir: {final_fitness}")
+    
+    return best_overall_chrom, best_items, w, v, final_fitness
+
+# ---
+# 5. Analisis Solusi Optimal
+# ---
+def brute_force_solution(capacity):
+    print("\nMencari solusi optimal dengan brute force...")
+    best_value = 0
+    best_combination = None
+    best_weight = 0
+    
+    for i in range(2 ** n_items):
+        combination = []
+        total_weight = 0
+        total_value = 0
+        
+        for j in range(n_items):
+            if (i >> j) & 1:
+                item_name = item_list[j]
+                combination.append(item_name)
+                total_weight += items[item_name]['weight']
+                total_value += items[item_name]['value']
+        
+        if total_weight <= capacity and total_value > best_value:
+            best_value = total_value
+            best_combination = combination
+            best_weight = total_weight
+    
+    print(f"Solusi optimal (brute force):")
+    print(f"Kombinasi: {best_combination}")
+    print(f"Berat: {best_weight} kg")
+    print(f"Nilai: ${best_value}")
+    
+    return best_combination, best_weight, best_value
+
+# ---
+# 6. Jalankan Program
+# ---
+if __name__ == "__main__":
+    random.seed(42)
+    
+    print("=" * 60)
+    print("ALGORITMA GENETIKA - KNAPSACK PROBLEM")
+    print("=" * 60)
+    print("Item yang tersedia:")
+    for item, props in items.items():
+        print(f"  {item}: berat={props['weight']}kg, nilai=${props['value']}")
+    
+    # Ambil parameter dari command line
+    capacity, pop_size, generations, crossover_rate, mutation_rate = get_parameters()
+    
+    print(f"\nKapasitas maksimal: {capacity}kg")
+    print(f"Parameter GA: pop_size={pop_size}, generations={generations}, crossover_rate={crossover_rate}, mutation_rate={mutation_rate}")
+    print()
+    
+    # Jalankan algoritma genetika
+    genetic_algorithm(
+        capacity=capacity,
+        pop_size=pop_size, 
+        generations=generations, 
+        crossover_rate=crossover_rate, 
+        mutation_rate=mutation_rate
+    )
+    
+    # Tampilkan solusi optimal untuk perbandingan
+    brute_force_solution(capacity)
